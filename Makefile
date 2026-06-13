@@ -4,8 +4,8 @@ SRCS_DIR    = srcs
 OBJS_DIR    = objs
 MLX_DIR     = mlx
 
-# Fichiers sources
-SRCS        = $(SRCS_DIR)/main.c
+# Fichiers sources (Tu ajoutes juste ton nouveau fichier ici)
+SRCS        = $(SRCS_DIR)/main.c $(SRCS_DIR)/maths.c
 
 # Transformation des .c en .o placés dans le dossier objs/
 OBJS        = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -18,7 +18,6 @@ CFLAGS      = -Wall -Wextra -Werror -Iincludes -I$(MLX_DIR)
 MLX_LNK     = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 all: $(NAME)
-
 
 $(NAME): $(OBJS)
 	@echo "Compilation de la MiniLibX..."
