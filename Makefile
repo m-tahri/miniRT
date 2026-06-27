@@ -21,7 +21,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "Compilation de la MiniLibX..."
-	@make -C $(MLX_DIR) > /dev/null 2>&1
+	make -C $(MLX_DIR)
 	@echo "Compilation de miniRT..."
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_LNK) -o $(NAME)
 	@echo "✅ miniRT est prêt !"

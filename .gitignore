@@ -53,3 +53,14 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Dossiers générés
+objs/
+
+# Configuration locale de la MiniLibX Linux
+mlx/Makefile.gen
+mlx/test/Makefile.gen
+mlx/test/mlx-test
+
+# L'exécutable final
+miniRT
