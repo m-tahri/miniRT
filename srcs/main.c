@@ -29,17 +29,16 @@ void fast_mlx_pixel_put(t_img *img, int x, int y, int color)
     // à l'adresse dst on considère maintenant un bloc de 4 octet au lieu de 1 et on y associe color
 }
 
-void test_img_rouge(t_img* img)
+void test_img_rouge(t_img* img, int width, int height)
 {
     int A = 0;
-    int R = 255; 
-    int G = 0;   
+    int R = 0; 
+    int G = 255;   
     int B = 0;   
-    int color;
+    int color = (A << 24) | (R << 16) | (G << 8) | B; // Calculé une seule fois hors de la boucle
 
-    for(int x=0; x<800; x++){
-        for(int y=0; y<600; y++){
-            color = (A << 24) | (R << 16) | (G << 8) | B;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++){
             fast_mlx_pixel_put(img, x, y, color);
         }
     }
@@ -49,7 +48,9 @@ int main(void)
 {
     t_vars  vars;
     t_img   img;
-
+    int width = 1280;
+    int height = 720;
+    
     vars.mlx = mlx_init();
     if (!vars.mlx)
     {
@@ -57,14 +58,14 @@ int main(void)
         return (1);
     }
     
-    vars.win = mlx_new_window(vars.mlx, 800, 600, "Raytracer");
+    vars.win = mlx_new_window(vars.mlx, width, height, "Raytracer");
     if (!vars.win)
         return (1);
 
-    img.img_ptr = mlx_new_image(vars.mlx, 800, 600);
+    img.img_ptr = mlx_new_image(vars.mlx, width, height);
     img.addr = mlx_get_data_addr(img.img_ptr, &img.bpp, &img.line_length, &img.endian);
 
-    test_img_rouge(&img);
+    test_img_rouge(&img, width, height);
     mlx_put_image_to_window(vars.mlx, vars.win, img.img_ptr, 0, 0);
 
     // ----------Fermeture Win----------

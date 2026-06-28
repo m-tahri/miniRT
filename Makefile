@@ -5,7 +5,7 @@ OBJS_DIR    = objs
 MLX_DIR     = mlx
 
 # Fichiers sources (Tu ajoutes juste ton nouveau fichier ici)
-SRCS        = $(SRCS_DIR)/main.c $(SRCS_DIR)/maths.c
+SRCS        = $(SRCS_DIR)/main.c $(SRCS_DIR)/maths.c $(SRCS_DIR)/ray.c
 
 # Transformation des .c en .o placés dans le dossier objs/
 OBJS        = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
