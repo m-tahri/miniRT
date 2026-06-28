@@ -9,7 +9,6 @@ t_ray ray_create(t_vec3 origin, t_vec3 direction)
     return (ray);
 };
 
-#include "../includes/raytracer.h"
 
 t_cam   setup_cam(void)
 {
