@@ -44,12 +44,51 @@ void test_img_rouge(t_img* img, int width, int height)
     }
 }
 
+
+void test_ray_img(t_cam* cam, t_img* img, int width, int height)
+{
+    double u;
+    double v;
+    t_vec3 point_on_viewport;
+    t_vec3 ray_direction;
+
+    // On commence souvent par le haut de l'écran (y = height - 1) pour aller vers le bas (y = 0)
+    // afin que l'axe Y mathématique (le ciel en haut) corresponde au haut de la fenêtre.
+    for (int y = 0; y < height; y++) 
+    {
+        for (int x = 0; x < width; x++)
+        {
+            // Calcul des coordonnées normalisées U et V (avec cast en double)
+            u = (double)x / (double)(width - 1);
+            // On inverse Y (1.0 - ratio) pour éviter que le ciel se retrouve en bas de l'écran
+            v = 1.0 - ((double)y / (double)(height - 1));
+
+            // Calcul du point exact sur le viewport
+            // point = lower_left_corner + (u * horizontal) + (v * vertical)
+            t_vec3 step_h = vec_scale(cam->horizontal, u);
+            t_vec3 step_v = vec_scale(cam->vertical, v);
+            point_on_viewport = vec_add(cam->lower_left_corner, vec_add(step_h, step_v));
+
+            // Calcul de la direction du rayon (du pixel visé moins l'œil de la caméra)
+            // direction = point_on_viewport - cam->pos
+            ray_direction = vec_sub(point_on_viewport, cam->pos);
+
+            // Création du rayon et récupération de la couleur du ciel
+            t_ray r = ray_create(cam->pos, ray_direction);
+            int color = ray_test_color(r);
+
+            fast_mlx_pixel_put(img, x, y, color);
+        }
+    }
+}
+
 int main(void)
 {
     t_vars  vars;
     t_img   img;
     int width = 1280;
     int height = 720;
+    t_cam cam = cam_setup();
     
     vars.mlx = mlx_init();
     if (!vars.mlx)
@@ -65,7 +104,10 @@ int main(void)
     img.img_ptr = mlx_new_image(vars.mlx, width, height);
     img.addr = mlx_get_data_addr(img.img_ptr, &img.bpp, &img.line_length, &img.endian);
 
-    test_img_rouge(&img, width, height);
+
+
+    //test_img_rouge(&img, width, height);
+    test_ray_img(&cam, &img, width, height);
     mlx_put_image_to_window(vars.mlx, vars.win, img.img_ptr, 0, 0);
 
     // ----------Fermeture Win----------

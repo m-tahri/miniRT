@@ -49,7 +49,9 @@ t_vec3  vec_sub(t_vec3 v1, t_vec3 v2);
 t_vec3  vec_scale(t_vec3 v, double t);
 double  vec_dot(t_vec3 v1, t_vec3 v2);
 t_vec3  vec_normalize(t_vec3 v);
-t_ray   ray_create(t_vec3 origin, t_vec3 direction);
 void    vec_set(t_vec3 *v, double x, double y, double z);
+t_cam   cam_setup(void);
+t_ray   ray_create(t_vec3 origin, t_vec3 direction);
+int     ray_test_color(t_ray r);
 
 #endif
