@@ -75,7 +75,7 @@ void test_ray_img(t_cam* cam, t_img* img, int width, int height)
 
             // Création du rayon et récupération de la couleur du ciel
             t_ray r = ray_create(cam->pos, ray_direction);
-            int color = ray_test_color(r);
+            int color = background_color(r);
 
             fast_mlx_pixel_put(img, x, y, color);
         }
@@ -88,7 +88,8 @@ int main(void)
     t_img   img;
     int width = 1280;
     int height = 720;
-    t_cam cam = cam_setup();
+    t_scene scene = parser("scenes/sphere.rt");
+    t_cam cam = scene.cam;
     
     vars.mlx = mlx_init();
     if (!vars.mlx)

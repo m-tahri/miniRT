@@ -42,7 +42,30 @@ t_cam   cam_setup(void)
     return (cam);
 }
 
-int ray_test_color(t_ray r)
+t_cam cam_build(t_vec3 pos, t_vec3 forward, double fov)
+{
+    t_cam cam;
+    double aspect_ratio;
+    double theta;
+    double viewport_height;
+    double viewport_width;
+
+    cam.pos = pos;
+    cam.direction = vec_normalize(forward);
+    cam.fov = fov;
+    aspect_ratio = 16.0 / 9.0;
+    theta = fov * 3.14159265358979323846 / 180.0;
+    viewport_height = 2.0 * tan(theta * 0.5);
+    viewport_width = aspect_ratio * viewport_height;
+    vec_set(&cam.horizontal, viewport_width, 0.0, 0.0);
+    vec_set(&cam.vertical, 0.0, viewport_height, 0.0);
+    cam.lower_left_corner = vec_add(cam.pos, cam.direction);
+    cam.lower_left_corner = vec_sub(cam.lower_left_corner, vec_scale(cam.horizontal, 0.5));
+    cam.lower_left_corner = vec_sub(cam.lower_left_corner, vec_scale(cam.vertical, 0.5));
+    return (cam);
+}
+
+int background_color(t_ray r)
 {
     // r.direction est déjà normalisé grâce à ray_create, donc son Y est entre -1.0 et 1.0.
     // On transforme cet intervalle en un float 't' entre 0.0 et 1.0.
